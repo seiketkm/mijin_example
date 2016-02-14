@@ -1,20 +1,61 @@
 <!doctype html>
 <html lang="ja">
-<head>
-<meta charset="utf-8">
-<title>mijin simple wallet</title>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/x64-core.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha3.js"></script>
-<script src="transfer.js"></script>
-<script src="nacl-fast.js"></script>
-<script src="KeyPair.js"></script>
-<script src="myscript.js"></script>
-</head>
-<body>
-
-<h1>送金サンプル</h1>
-<button id="btnReset">送金</button>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>mijin simple transfer</title>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/x64-core.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha3.js"></script>
+    <script src="transfer.js"></script>
+    <script src="nacl-fast.js"></script>
+    <script src="KeyPair.js"></script>
+    <script src="myscript.js"></script>
+    <style>
+      input, textarea{
+      width: 80%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>送金(mijin)</h1>
+    <div>
+      <label for="rcpt">送金先</label>
+      <input id="rcpt" placeholder="MADIFCCO75ES3IDU3KN2DVXAGW25VSGAV4GTIV62">
+    </div>
+    <div>
+      <label for="rcpt">接続ノード</label>
+      <select id="node"></select>
+    </div>
+    <div>
+       <label for="send">送金</label>
+      <button id="send">送金</button>
+    </div>
+    <hr/>
+    <div>
+       <label for="send">秘密鍵</label>
+       <input id="privkey"/>
+    </div>
+    <div>
+       <label for="send">公開鍵</label>
+       <input id="pubkey"/>
+    </div>
+    <div>
+       <label for="addr">アドレス</label>
+       <input id="addr"/>
+    </div>
+    <hr/>
+    <div>
+      <label for="account">account info</label>
+      <textarea id="account" placeholder="作成したアカウントのJSONをコピペ/account.jsonを配置する"></textarea>
+    </div>
+    <hr/>
+    <div>
+      custom from <a href="https://github.com/mediaprogramer/mijin-SimpleTransfer">mediaprogramer/mijin-SimpleTransfer</a>, thanks!
+    </div>
+    <div>
+      <a href="https://twitter.com/seiketkm">@seiketkm</a>
+    </div>
+  </body>
 </html>

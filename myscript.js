@@ -5,8 +5,26 @@ var RECIPIENT_ADDRESS = "MADIFCCO75ES3IDU3KN2DVXAGW25VSGAV4GTIV62";	//送信先�
 //送金API URL
 var URL_TRANSACTION_ANNOUNCE = "http://59.106.211.98:7895/transaction/announce";
 
+var path = '/transaction/announce';
+var nodes = ['153.127.193.181','133.242.235.38','59.106.211.194','59.106.211.98'];
+var optionTemplate = _.template("<option value=<%-val%>><%-txt%></option>");
+
 $(function(){
-  $("#btnReset").click(function(){
-    sendAjaxRequest().done();
-  });
+    // 接続nodeを列挙
+    $("#node").append(_.map(nodes,function(n){
+	return optionTemplate({val:n, txt:n});
+    }));
+    // ローカルのデータを自動ロード
+    $("#account").change(function(e){
+	var account = JSON.parse($("#account").val());
+	$("#privkey").val(account.privateKey);
+	$("#pubkey").val(account.publicKey);
+	$("#addr").val(account.address);
+    });
+    $.get("account.json",function(res){
+	$("#account").val(JSON.stringify(res)).change();
+    });
+    $("#send").click(function(){
+	sendAjaxRequest().done();
+    });
 });
