@@ -99,9 +99,10 @@ var CURRENT_NETWORK_VERSION = function(val) {
     return 0x60000000 | val;
 };
 
-function sendAjaxRequest(pubKey,privKey,rcptAddr, options){
-    var amount = parseInt(10 * 10000, 10);
-    var message = {payload:"",type:1};
+function sendAjaxRequest(senderPubKey,senderPrivKey,rcptAddr, options){
+    var o = _.defaults(options, {message: ""}, {amount: 100})
+    var amount = parseInt(o.amount, 10);
+    var message = {payload: o.message,type:1};
     var due = 60;
     var mosaics = null;
     var mosaicsFee = null;
@@ -114,13 +115,13 @@ function sendAjaxRequest(pubKey,privKey,rcptAddr, options){
     var data ={
 	'type': 0x101,
 	'version': CURRENT_NETWORK_VERSION(1),
-	'signer': SENDER_PUBLIC_KEY,
+	'signer': senderPubKey,
 	'timeStamp': timeStamp,
 	'deadline': timeStamp + due * 60
     };
     
     var custom = {
-	'recipient': RECIPIENT_ADDRESS,
+	'recipient': rcptAddr,
 	'amount': amount,
 	'fee': totalFee,
 	'message': message,
@@ -129,23 +130,21 @@ function sendAjaxRequest(pubKey,privKey,rcptAddr, options){
     
     var entity = $.extend(data, custom);
     var result = serializeTransferTransaction(entity);
-    var kp = KeyPair.create(SENDER_PRIVATE_KEY);  
+    var kp = KeyPair.create(senderPrivKey);  
     var signature = kp.sign(result);
     var obj = {'data':ua2hex(result), 'signature':signature.toString()};
     console.log(entity);
     console.log(result);
     console.log(obj);
     
-    return $.ajax(
-		  {
-		      url: URL_TRANSACTION_ANNOUNCE,
-			  type: 'POST',
-			  contentType:'application/json',
-			  data: JSON.stringify(obj)  ,
-			  error: function(XMLHttpRequest) {
-			  console.log( $.parseJSON(XMLHttpRequest.responseText));
-		      }
-		  }
-		  );
+    return $.ajax({
+	url: o.host,
+	type: 'POST',
+	contentType:'application/json',
+	data: JSON.stringify(obj)  ,
+	error: function(XMLHttpRequest) {
+	    console.log( $.parseJSON(XMLHttpRequest.responseText));
+	}
+    });
 }
 
