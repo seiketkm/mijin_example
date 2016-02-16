@@ -137,14 +137,16 @@ function sendAjaxRequest(senderPubKey,senderPrivKey,rcptAddr, options){
     console.log(result);
     console.log(obj);
     
-    return $.ajax({
+    $.ajax({
 	url: o.host,
 	type: 'POST',
 	contentType:'application/json',
-	data: JSON.stringify(obj)  ,
-	error: function(XMLHttpRequest) {
-	    console.log( $.parseJSON(XMLHttpRequest.responseText));
-	}
+	data: JSON.stringify(obj),
+    }).done(function(){
+	console.log("done");
+    }).fail(function(){
+	console.log("failed");
+	alert("failed");
     });
 }
 
